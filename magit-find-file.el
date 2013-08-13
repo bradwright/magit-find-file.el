@@ -45,6 +45,8 @@
 
 ;;; Code:
 
+(require 'cl)
+
 (defgroup magit-find-file nil
   "Use Magit to completing-read over files"
   :prefix "magit-find-file-"
@@ -79,6 +81,7 @@
 ;; mangle-whitespace: t
 ;; require-final-newline: t
 ;; checkdoc-minor-mode: t
+;; byte-compile-warnings: (not cl-functions)
 ;; End:
 
 ;;; magit-find-file.el ends here
