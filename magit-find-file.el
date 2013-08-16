@@ -5,7 +5,7 @@
 ;; Author: Bradley Wright <brad@intranation.com>
 ;; Keywords: git
 ;; URL: https://github.com/bradleywright/magit-find-file.el
-;; Version: 0.0.1
+;; Version: 1.0.0
 ;; Package-Requires: ((magit "1.2.0"))
 
 ;; This file is not part of GNU Emacs.
