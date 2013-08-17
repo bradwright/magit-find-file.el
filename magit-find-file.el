@@ -29,7 +29,6 @@
 ;; Cmd-t.
 
 ;; Uses a configurable completing-read to open any file in the
-
 ;; Git repository of the current buffer.
 
 ;; Usage:
