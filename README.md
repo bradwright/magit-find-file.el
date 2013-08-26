@@ -8,13 +8,15 @@ Depends on Magit.
 
 ## Installation
 
-Install it from [Melpa](http://melpa.milkbox.net/), or drop `magit-find-file.el` into your load path and add:
+Install it from [Melpa](http://melpa.milkbox.net/), or drop
+`magit-find-file.el` into your load path and add:
 
 ```emacs
 (require 'magit-find-file)
 ```
 
-into your `init.el`.
+into your `init.el`. The Melpa version uses `autoload`, so once
+installed you won't need to add anything to your `init.el`.
 
 ## Finding files
 
