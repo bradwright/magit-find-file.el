@@ -44,7 +44,7 @@
 
 ;;; Code:
 
-(require 'cl-lib)
+(eval-when-compile (require 'cl))
 (require 'magit)
 
 (defgroup magit-find-file nil
@@ -81,7 +81,7 @@
 ;; mangle-whitespace: t
 ;; require-final-newline: t
 ;; checkdoc-minor-mode: t
-;; byte-compile-warnings: (not cl-functions)
+;; byte-compile-warnings: (not cl-functions) (not magit-get-top-dir)
 ;; End:
 
 ;;; magit-find-file.el ends here
