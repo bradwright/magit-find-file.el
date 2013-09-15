@@ -68,10 +68,12 @@
   "Uses a completing read to open a file from git ls-files"
   (interactive)
   (let ((default-directory (magit-get-top-dir)))
-    (find-file
-     (magit-completing-read
-      (format "Find file: %s" (abbreviate-file-name default-directory))
-      (remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))))
+    (if default-directory
+        (find-file
+         (magit-completing-read
+          (format "Find file: %s" (abbreviate-file-name default-directory))
+          (remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
+      (error "Not a git repository."))))
 
 (provide 'magit-find-file)
 
