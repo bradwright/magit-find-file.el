@@ -5,7 +5,7 @@
 ;; Author: Bradley Wright <brad@intranation.com>
 ;; Keywords: git
 ;; URL: https://github.com/bradleywright/magit-find-file.el
-;; Version: 1.0.4
+;; Version: 1.0.5
 ;; Package-Requires: ((magit "1.2.0"))
 
 ;; This file is not part of GNU Emacs.
@@ -63,16 +63,21 @@
       (member (file-name-extension name) '("jpg" "png" "gif" "jpeg"))
     nil))
 
+(defun magit-find-file-files (&optional magit-top-directory)
+  "Returns a list of files"
+  (let ((default-directory (if magit-top-directory magit-top-directory (magit-get-top-dir))))
+    (remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
+
 ;;;###autoload
 (defun magit-find-file-completing-read ()
   "Uses a completing read to open a file from git ls-files"
   (interactive)
-  (let ((default-directory (magit-get-top-dir)))
-    (if default-directory
+  (let ((magit-top-directory (magit-get-top-dir)))
+    (if magit-top-directory
         (find-file
          (magit-completing-read
-          (format "Find file: %s" (abbreviate-file-name default-directory))
-          (remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
+          (format "Find file: %s" (abbreviate-file-name magit-top-directory))
+          (magit-find-file-files magit-top-directory)))
       (error "Not a git repository."))))
 
 (provide 'magit-find-file)
