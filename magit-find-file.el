@@ -47,6 +47,10 @@
 (eval-when-compile (require 'cl))
 (require 'magit)
 
+;; These functions don't autoload in Magit
+(autoload 'magit-get-top-dir "magit")
+(autoload 'magit-git-lines "magit")
+
 (defgroup magit-find-file nil
   "Use Magit to completing-read over files"
   :prefix "magit-find-file-"
