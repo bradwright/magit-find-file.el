@@ -76,7 +76,8 @@
 (defun magit-find-file-completing-read ()
   "Uses a completing read to open a file from git ls-files"
   (interactive)
-  (let ((magit-top-directory (magit-get-top-dir)))
+  (let* ((magit-top-directory (magit-get-top-dir))
+         (default-directory magit-top-directory))
     (if magit-top-directory
         (find-file
          (magit-completing-read
