@@ -48,7 +48,9 @@
 (require 'magit)
 
 ;; These functions don't autoload in Magit
+;;;###autoload
 (autoload 'magit-get-top-dir "magit")
+;;;###autoload
 (autoload 'magit-git-lines "magit")
 
 (defgroup magit-find-file nil
