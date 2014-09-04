@@ -39,8 +39,8 @@
 ;; Customize `magit-completing-read-function' to change the completing
 ;; read engine used (so it should behave like Magit does for you).
 ;;
-;; Customize `magit-find-file-skip-images' to include images in your
-;; candidate list. This is t by default.
+;; Customize `magit-find-file-ignore-extensions' to exclude certain
+;; files from completion.  By default all files can be selected.
 
 ;;; Code:
 
@@ -53,21 +53,18 @@
   :group 'tools
   :group 'magit-extensions)
 
-(defcustom magit-find-file-skip-images t
-  "Skip images in completing-read candidate list."
+(defcustom magit-find-file-ignore-extensions nil
+  "List of file extensions `magit-find-file-completing-read' ignores."
   :group 'magit-find-file
-  :type 'boolean)
-
-(defun magit-find-file-is-image (name)
-  "Identify images by extension."
-  (if magit-find-file-skip-images
-      (member (file-name-extension name) '("jpg" "png" "gif" "jpeg"))
-    nil))
+  :type '(repeat string))
 
 (defun magit-find-file-files (&optional magit-top-directory)
   "Return a list of files."
-  (let ((default-directory (if magit-top-directory magit-top-directory (magit-get-top-dir))))
-    (cl-remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
+  (let ((default-directory (or magit-top-directory (magit-get-top-dir))))
+    (cl-remove-if (lambda (file)
+                    (member (file-name-extension file)
+                            magit-find-file-ignore-extensions))
+                  (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
 
 ;;;###autoload
 (defun magit-find-file-completing-read ()
