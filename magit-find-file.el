@@ -50,7 +50,8 @@
 (defgroup magit-find-file nil
   "Use Magit to completing-read over files"
   :prefix "magit-find-file-"
-  :group 'tools)
+  :group 'tools
+  :group 'magit-extensions)
 
 (defcustom magit-find-file-skip-images t
   "Skip images in completing-read candidate list."
