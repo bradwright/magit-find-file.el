@@ -75,9 +75,9 @@
     (if magit-top-directory
         (find-file
          (magit-completing-read
-          (format "Find file: %s" (abbreviate-file-name magit-top-directory))
+          (format "Find file in %s" (abbreviate-file-name magit-top-directory))
           (magit-find-file-files magit-top-directory)))
-      (error "Not a git repository."))))
+      (error "Not inside a Git repository."))))
 
 (provide 'magit-find-file)
 
