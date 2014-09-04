@@ -44,7 +44,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(require 'cl-lib)
 (require 'magit)
 
 ;; These functions don't autoload in Magit
@@ -72,7 +72,7 @@
 (defun magit-find-file-files (&optional magit-top-directory)
   "Returns a list of files"
   (let ((default-directory (if magit-top-directory magit-top-directory (magit-get-top-dir))))
-    (remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
+    (cl-remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
 
 ;;;###autoload
 (defun magit-find-file-completing-read ()
@@ -95,7 +95,7 @@
 ;; mangle-whitespace: t
 ;; require-final-newline: t
 ;; checkdoc-minor-mode: t
-;; byte-compile-warnings: (not cl-functions) (not magit-get-top-dir)
+;; byte-compile-warnings: (not magit-get-top-dir)
 ;; End:
 
 ;;; magit-find-file.el ends here
