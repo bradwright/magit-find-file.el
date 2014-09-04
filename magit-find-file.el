@@ -59,19 +59,19 @@
   :type 'boolean)
 
 (defun magit-find-file-is-image (name)
-  "Identifies images by extension."
+  "Identify images by extension."
   (if magit-find-file-skip-images
       (member (file-name-extension name) '("jpg" "png" "gif" "jpeg"))
     nil))
 
 (defun magit-find-file-files (&optional magit-top-directory)
-  "Returns a list of files"
+  "Return a list of files."
   (let ((default-directory (if magit-top-directory magit-top-directory (magit-get-top-dir))))
     (cl-remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
 
 ;;;###autoload
 (defun magit-find-file-completing-read ()
-  "Uses a completing read to open a file from git ls-files"
+  "Use a completing read to open a file from git ls-files."
   (interactive)
   (let* ((magit-top-directory (magit-get-top-dir))
          (default-directory magit-top-directory))
