@@ -6,7 +6,7 @@
 ;; Keywords: git
 ;; URL: https://github.com/bradleywright/magit-find-file.el
 ;; Version: 1.0.8
-;; Package-Requires: ((magit "1.2.0"))
+;; Package-Requires: ((magit "1.2.0") (dash "2.8.0"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -36,56 +36,45 @@
 ;;     (require 'magit-find-file) ;; if not using the ELPA package
 ;;     (global-set-key (kbd "C-c p") 'magit-find-file-completing-read)
 ;;
-;; Customize 'magit-completing-read-function to change the completing
+;; Customize `magit-completing-read-function' to change the completing
 ;; read engine used (so it should behave like Magit does for you).
 ;;
-;; Customize 'magit-find-file-skip-images to include images in your
-;; candidate list. This is t by default.
+;; Customize `magit-find-file-ignore-extensions' to exclude certain
+;; files from completion.  By default all files can be selected.
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(require 'dash)
 (require 'magit)
-
-;; These functions don't autoload in Magit
-;;;###autoload
-(autoload 'magit-get-top-dir "magit")
-;;;###autoload
-(autoload 'magit-git-lines "magit")
 
 (defgroup magit-find-file nil
   "Use Magit to completing-read over files"
   :prefix "magit-find-file-"
-  :group 'tools)
+  :group 'tools
+  :group 'magit-extensions)
 
-(defcustom magit-find-file-skip-images t
-  "Skip images in completing-read candidate list."
+(defcustom magit-find-file-ignore-extensions nil
+  "List of file extensions `magit-find-file-completing-read' ignores."
   :group 'magit-find-file
-  :type 'boolean)
+  :type '(repeat string))
 
-(defun magit-find-file-is-image (name)
-  "Identifies images by extension."
-  (if magit-find-file-skip-images
-      (member (file-name-extension name) '("jpg" "png" "gif" "jpeg"))
-    nil))
-
-(defun magit-find-file-files (&optional magit-top-directory)
-  "Returns a list of files"
-  (let ((default-directory (if magit-top-directory magit-top-directory (magit-get-top-dir))))
-    (remove-if 'magit-find-file-is-image (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
+(defun magit-find-file-files ()
+  (let ((default-directory (magit-get-top-dir)))
+    (--remove (member (file-name-extension it)
+                      magit-find-file-ignore-extensions)
+              (magit-git-lines "ls-files" "--cached"
+                               "--other" "--exclude-standard"))))
 
 ;;;###autoload
 (defun magit-find-file-completing-read ()
-  "Uses a completing read to open a file from git ls-files"
+  "Use a completing read to open a file from git ls-files."
   (interactive)
-  (let* ((magit-top-directory (magit-get-top-dir))
-         (default-directory magit-top-directory))
-    (if magit-top-directory
-        (find-file
-         (magit-completing-read
-          (format "Find file: %s" (abbreviate-file-name magit-top-directory))
-          (magit-find-file-files magit-top-directory)))
-      (error "Not a git repository."))))
+  (-if-let (default-directory (magit-get-top-dir))
+      (find-file (magit-completing-read
+                  (format "Find file in %s"
+                          (abbreviate-file-name default-directory))
+                  (magit-find-file-files)))
+    (error "Not inside a Git repository")))
 
 (provide 'magit-find-file)
 
@@ -95,7 +84,6 @@
 ;; mangle-whitespace: t
 ;; require-final-newline: t
 ;; checkdoc-minor-mode: t
-;; byte-compile-warnings: (not cl-functions) (not magit-get-top-dir)
 ;; End:
 
 ;;; magit-find-file.el ends here
