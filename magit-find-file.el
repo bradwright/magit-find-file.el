@@ -6,7 +6,7 @@
 ;; Keywords: git
 ;; URL: https://github.com/bradleywright/magit-find-file.el
 ;; Version: 1.0.8
-;; Package-Requires: ((magit "1.2.0"))
+;; Package-Requires: ((magit "1.2.0") (dash "2.8.0"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -44,7 +44,7 @@
 
 ;;; Code:
 
-(require 'cl-lib)
+(require 'dash)
 (require 'magit)
 
 (defgroup magit-find-file nil
@@ -58,13 +58,12 @@
   :group 'magit-find-file
   :type '(repeat string))
 
-(defun magit-find-file-files (&optional magit-top-directory)
-  "Return a list of files."
-  (let ((default-directory (or magit-top-directory (magit-get-top-dir))))
-    (cl-remove-if (lambda (file)
-                    (member (file-name-extension file)
-                            magit-find-file-ignore-extensions))
-                  (magit-git-lines "ls-files" "--exclude-standard" "-co"))))
+(defun magit-find-file-files ()
+  (let ((default-directory (magit-get-top-dir)))
+    (--remove (member (file-name-extension it)
+                      magit-find-file-ignore-extensions)
+              (magit-git-lines "ls-files" "--cached"
+                               "--other" "--exclude-standard"))))
 
 ;;;###autoload
 (defun magit-find-file-completing-read ()
