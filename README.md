@@ -31,6 +31,10 @@ You may want to add it as a key command:
 (global-set-key (kbd "C-c p") 'magit-find-file-completing-read)
 ```
 
+## Contributors
+
+- @tarsius - https://github.com/tarsius
+
 ## Licence
 
 This program is free software; you can redistribute it and/or modify
