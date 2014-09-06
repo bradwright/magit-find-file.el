@@ -69,14 +69,12 @@
 (defun magit-find-file-completing-read ()
   "Use a completing read to open a file from git ls-files."
   (interactive)
-  (let* ((magit-top-directory (magit-get-top-dir))
-         (default-directory magit-top-directory))
-    (if magit-top-directory
-        (find-file
-         (magit-completing-read
-          (format "Find file in %s" (abbreviate-file-name magit-top-directory))
-          (magit-find-file-files magit-top-directory)))
-      (error "Not inside a Git repository."))))
+  (-if-let (default-directory (magit-get-top-dir))
+      (find-file (magit-completing-read
+                  (format "Find file in %s"
+                          (abbreviate-file-name default-directory))
+                  (magit-find-file-files)))
+    (error "Not inside a Git repository")))
 
 (provide 'magit-find-file)
 
