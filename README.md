@@ -33,7 +33,8 @@ You may want to add it as a key command:
 
 ## Contributors
 
-- @tarsius - https://github.com/tarsius
+- [@chmouel](https://github.com/chmouel)
+- [@tarsius](https://github.com/tarsius)
 
 ## Licence
 
