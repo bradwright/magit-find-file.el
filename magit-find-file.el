@@ -47,12 +47,6 @@
 (require 'dash)
 (require 'magit)
 
-;; These functions don't autoload in Magit
-;;;###autoload
-(autoload 'magit-get-top-dir "magit")
-;;;###autoload
-(autoload 'magit-git-lines "magit")
-
 (defgroup magit-find-file nil
   "Use Magit to completing-read over files"
   :prefix "magit-find-file-"
@@ -90,7 +84,6 @@
 ;; mangle-whitespace: t
 ;; require-final-newline: t
 ;; checkdoc-minor-mode: t
-;; byte-compile-warnings: (not magit-get-top-dir)
 ;; End:
 
 ;;; magit-find-file.el ends here
