@@ -1,3 +1,6 @@
+[![Melpa Status](http://melpa.milkbox.net/packages/magit-find-file-badge.svg)](http://melpa.milkbox.net/#/magit-find-file)
+[![Melpa Stable Status](http://melpa-stable.milkbox.net/packages/magit-find-file-badge.svg)](http://melpa-stable.milkbox.net/#/magit-find-file)
+
 # magit-find-file
 
 [magit](https://github.com/magit/magit) powered equivalent of
