@@ -1,12 +1,12 @@
 ;;; magit-find-file.el --- completing-read over all files in Git
 
-;; Copyright (C) 2013 Bradley Wright
+;; Copyright (C) 2013-2015  Bradley Wright
 
 ;; Author: Bradley Wright <brad@intranation.com>
 ;; Keywords: git
 ;; URL: https://github.com/bradleywright/magit-find-file.el
-;; Version: 2.0.1
-;; Package-Requires: ((magit "1.2.0") (dash "2.8.0"))
+;; Version: 2.1.0
+;; Package-Requires: ((magit "2.1.0") (dash "2.8.0"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -59,7 +59,7 @@
   :type '(repeat string))
 
 (defun magit-find-file-files ()
-  (let ((default-directory (magit-get-top-dir)))
+  (magit-with-toplevel
     (--remove (member (file-name-extension it)
                       magit-find-file-ignore-extensions)
               (magit-git-lines "ls-files" "--cached"
@@ -69,12 +69,11 @@
 (defun magit-find-file-completing-read ()
   "Use a completing read to open a file from git ls-files."
   (interactive)
-  (-if-let (default-directory (magit-get-top-dir))
-      (find-file (magit-completing-read
-                  (format "Find file in %s"
-                          (abbreviate-file-name default-directory))
-                  (magit-find-file-files)))
-    (error "Not inside a Git repository")))
+  (magit-with-toplevel
+    (find-file (magit-completing-read
+                (format "Find file in %s"
+                        (abbreviate-file-name default-directory))
+                (magit-find-file-files)))))
 
 (provide 'magit-find-file)
 
