@@ -1,5 +1,5 @@
-[![Melpa Status](http://melpa.milkbox.net/packages/magit-find-file-badge.svg)](http://melpa.milkbox.net/#/magit-find-file)
-[![Melpa Stable Status](http://melpa-stable.milkbox.net/packages/magit-find-file-badge.svg)](http://melpa-stable.milkbox.net/#/magit-find-file)
+[![Melpa Status](https://melpa.org/packages/magit-find-file-badge.svg)](http://melpa.org/#/magit-find-file)
+[![Melpa Stable Status](https://stable.melpa.org/packages/magit-find-file-badge.svg)](https://stable.melpa.org/#/magit-find-file)
 
 # magit-find-file
 
@@ -11,7 +11,7 @@ Depends on Magit.
 
 ## Installation
 
-Install it from [Melpa](http://melpa.milkbox.net/), or drop
+Install it from [Melpa](https://melpa.org/), or drop
 `magit-find-file.el` into your load path and add:
 
 ```emacs
